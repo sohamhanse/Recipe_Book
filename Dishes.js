@@ -6,7 +6,7 @@ export default [
       "A popular Indian dish with roasted marinated chicken in a spiced curry sauce.",
     recipe:
       "1. Marinate chicken in yogurt and spices. 2. Grill chicken. 3. Cook tomato-based sauce. 4. Combine and simmer.",
-    image: "./Images/Chicken Tikka Masala.avif",
+    image: "./Images/Chicken Tikka Masala.png",
   },
   {
     name: "Sushi",
