@@ -231,7 +231,7 @@ app.get("/get-recipes", async (req, res) => {
                 data: recipe
             });
         } catch (err) {
-            console.error(err); // Log error details for debugging
+            console.error(err); 
             res.status(500).json({
                 success: false,
                 message: "Failed to fetch recipe",

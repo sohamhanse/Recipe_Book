@@ -10,8 +10,9 @@ function RecipeDetail() {
   useEffect(() => {
     async function fetchDish() {
       try {
+        const id = localStorage.getItem("userid");
         const response = await axios.get(
-          `https://recipe-backend-rosy.vercel.app/get-recipe/${id}`
+          `https://recipe-backend-rosy.vercel.app/get-user-recipes/${id}`
         );
         console.log(response);
         if (response.data.success) {
