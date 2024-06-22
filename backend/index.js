@@ -190,8 +190,7 @@ app.get("/get-recipes", async (req, res) => {
 });
 
 app.get("/get-recipe/:id", async (req, res) => {
-    const { id } = req.params;
-    console.log(id);
+    const  id  = "667686243b10400ef6fc98a2";
     try {
         const recipe = await recipeModel.findById(id);
         console.log(recipe);
