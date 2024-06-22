@@ -108,7 +108,7 @@ function AddRecipe() {
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
-            type="text"
+            type="image"
             id="image"
             name="image"
             value={recipe.image}
