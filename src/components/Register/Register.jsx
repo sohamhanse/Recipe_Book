@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Login/LoginForm.css";
+import axios from "axios";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -8,19 +9,32 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  function handleSignup(e) {
-    e.preventDefault();
-    if (username === "" || email === "" || password === "") {
-      alert("Please fill in all fields.");
+  async function handleSingup() {
+    if (username === "" || password === "" || email === "") {
+      alert("Enter valid Username and Password");
     } else {
-      navigate("/");
+      try {
+        const response = await axios.post(
+          "https://recipe-backend-qgg0.onrender.com/register",
+          {
+            username: username,
+            password: password,
+            email: email,
+          }
+        );
+        console.log(response.data);
+        navigate("/");
+      } catch (error) {
+        console.error(error.response.data);
+        alert("Signup failed. Please check your credentials.");
+      }
     }
   }
 
   return (
     <div id="login-form">
       <h1>Sign Up</h1>
-      <form onSubmit={handleSignup}>
+      <form onSubmit={handleSingup}>
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -46,7 +60,9 @@ export default function Register() {
           value={password}
         />
         <span id="spansignup">
-          <button type="submit" className="button-17">Sign Up</button>
+          <button type="submit" className="button-17">
+            Sign Up
+          </button>
         </span>
       </form>
     </div>

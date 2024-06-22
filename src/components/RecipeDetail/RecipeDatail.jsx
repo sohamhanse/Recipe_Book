@@ -1,28 +1,34 @@
 import { useParams } from "react-router-dom";
-import dishes from "../../../Dishes.js";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./RecipeDetail.css";
+
 function RecipeDetail() {
   const { name } = useParams();
-  const dish = dishes.find((dish) => dish.name === name);
+  const [dish, setDish] = useState(null);
+
+  useEffect(() => {
+    async function fetchDish() {
+      try {
+        const response = await axios.get(`https://recipe-backend-qgg0.onrender.com/get-recipes/${name}`);
+        if (response.data.success) {
+          setDish(response.data.data);
+        } else {
+          console.log(response.data.message);
+        }
+      } catch (err) {
+        console.error("Failed to fetch recipe", err);
+      }
+    }
+
+    fetchDish();
+  }, [name]);
 
   if (!dish) {
     return <div>Recipe not found</div>;
   }
 
-  console.log(dish);
-
   return (
-    /*
-    <div classNameName="recipe-detail">
-      <h2>{dish.name}</h2>
-      <img src = {`../../.${dish.image}`} alt="" />
-      <h3>Discription</h3>
-      <p>{dish.description}</p>
-      <h3>Recipe</h3>
-      <p>{dish.recipe}</p>
-    </div>
-    */
-
     <div className="Recipe">
       <div className="Recipe__title">
         <div className="icon">
@@ -35,11 +41,11 @@ function RecipeDetail() {
       <div className="Recipe__body">
         <div className="half">
           <div className="featured_text">
-            <h1>{dish.name}</h1>
+            <h1>{dish.rname}</h1>
           </div>
           <div className="image">
             <img
-              src = {`../../.${dish.image}`}
+              src={dish.imgurl}
               alt=""
             />
           </div>

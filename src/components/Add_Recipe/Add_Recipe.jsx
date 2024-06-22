@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./AddRecipe.css";
-import User_Dishes from "../../../User_Dishes";
+import { UserProvider } from "../User_Contect";
 
-function AddRecipe() {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+function AddRecipe() { 
+  const navigate = useNavigate();
+  const { userId } = createContext(UserProvider);
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
@@ -21,24 +23,41 @@ function AddRecipe() {
     setRecipe((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
-  const handleSubmit = (e) => {
+  async function handleAddRecipe(e) {
     e.preventDefault();
-    const newRecipe = {
-      name: recipe.name,
-      description: recipe.description,
-      recipe: recipe.recipe,
-      image: URL.createObjectURL(recipe.image),
-    };
 
-    User_Dishes.push(newRecipe);
-    console.log(User_Dishes);
-    navigate("/Your Recipes"); // Navigate to "/Your Recipes" after adding recipe
-  };
+    const formData = new FormData();
+    formData.append("rname", recipe.name);
+    formData.append("description", recipe.description);
+    formData.append("recipe", recipe.recipe);
+    formData.append("imgurl", recipe.image);
+
+    if (!recipe.name || !recipe.image || !recipe.description || !recipe.recipe) {
+      alert("Enter valid Name, description, recipe, and image");
+    } else {
+      try {
+        const response = await axios.post(
+          `https://recipe-backend-qgg0.onrender.com/${recipe.name}/to/${userId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+        console.log(response.data);
+        navigate("/Your Recipes");
+      } catch (error) {
+        console.error(error.response.data);
+        alert("Adding Recipe failed. Please check your credentials.");
+      }
+    }
+  }
 
   return (
     <div className="add-recipe-container">
       <h2>Add a New Recipe</h2>
-      <form className="recipe-form" onSubmit={handleSubmit}>
+      <form className="recipe-form" onSubmit={handleAddRecipe}>
         <div className="form-group">
           <label htmlFor="name">Recipe Name</label>
           <input

@@ -5,8 +5,8 @@ const userModel = require("./models/user");
 const recipeModel = require("./models/recipie");
 
 const app = express();
-const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGO_URI || "mongodb+srv://soham:soham@recipebook.tynml2u.mongodb.net/";
+const port = 3000;
+const mongoURI = "mongodb+srv://soham:soham@recipebook.tynml2u.mongodb.net/";
 
 app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies

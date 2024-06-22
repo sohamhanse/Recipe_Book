@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./LoginForm.css";
+import UserContext from "../../components/User_Contect"; 
 
 export default function Login_Page() {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUserId } = useContext(UserContext);
 
-  function handleSignin() {
+  async function handleSignin() {
     if (Username === "" || Password === "") {
       alert("Enter valid Username and Password");
     } else {
-      navigate("/Home");
+      try {
+        const response = await axios.post(
+          "https://recipe-backend-qgg0.onrender.com/login",
+          {
+            username: Username,
+            password: Password,
+          }
+        );
+        console.log(response.data);
+        setUserId(Username); 
+        navigate("/Home");
+      } catch (error) {
+        console.error(error.response.data);
+        alert("Login failed. Please check your credentials.");
+      }
     }
   }
 
