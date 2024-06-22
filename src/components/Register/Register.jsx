@@ -9,23 +9,24 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  async function handleSingup() {
+  async function handleSignup(event) {
+    event.preventDefault();  // Prevent the default form submission
     if (username === "" || password === "" || email === "") {
-      alert("Enter valid Username and Password");
+      alert("Enter valid Username, Email, and Password");
     } else {
       try {
         const response = await axios.post(
           "https://recipe-backend-rosy.vercel.app/register",
           {
-            username: username,
-            password: password,
-            email: email,
+            username,
+            password,
+            email
           }
         );
         console.log(response.data);
         navigate("/");
       } catch (error) {
-        console.error(error.response.data);
+        console.error(error);
         alert("Signup failed. Please check your credentials.");
       }
     }
@@ -34,7 +35,7 @@ export default function Register() {
   return (
     <div id="login-form">
       <h1>Sign Up</h1>
-      <form onSubmit={handleSingup}>
+      <form onSubmit={handleSignup}>
         <label htmlFor="username">Username:</label>
         <input
           type="text"

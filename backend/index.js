@@ -63,7 +63,7 @@ app.post("/login", async (req, res) => {
 
     try {
         const user = await userModel.findOne({ username });
-        if (!user || user.password !== password) {
+        if (!user || user.password != password) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid username or password"
@@ -145,6 +145,32 @@ app.post("/:recipeid/to/:userid", async (req, res) => {
         });
     }
 });
+
+app.get("/get-user-recipes/:userid", async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const user = await userModel.findById(userid);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Recipes fetched successfully",
+            data: user.recipes
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch recipes",
+            error: err.message
+        });
+    }
+});
+
 
 app.get("/get-recipes", async (req, res) => {
     try {

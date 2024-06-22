@@ -1,22 +1,32 @@
-import { createContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Card/Card.css";
-import { UserProvider } from "../User_Contect";
+import { UserContext } from "../User_Contect";
 
 function User_Recipe() {
   const [userDishes, setUserDishes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { userId } = createContext(UserProvider);
+  const { userId } = useContext(UserContext);
 
   useEffect(() => {
     async function fetchUserRecipes() {
       try {
+        const id = localStorage.getItem("userid") || userId;
         const response = await axios.get(
-          `http://localhost:3000/get-user-recipes/${userId}`
+          `https://recipe-backend-rosy.vercel.app/get-user-recipes/${id}`
         );
         if (response.data.success) {
-          setUserDishes(response.data.data);
+          const recipeIds = response.data.data;
+          const recipeDetails = await Promise.all(
+            recipeIds.map(async (recipeId) => {
+              const recipeResponse = await axios.get(
+                `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
+              );
+              return recipeResponse.data.data; // Assuming the full recipe data is in data.data
+            })
+          );
+          setUserDishes(recipeDetails);
         } else {
           alert(response.data.message);
         }
@@ -27,7 +37,9 @@ function User_Recipe() {
       }
     }
 
-    fetchUserRecipes();
+    if (userId) {
+      fetchUserRecipes();
+    }
   }, [userId]);
 
   if (loading) {

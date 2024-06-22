@@ -11,7 +11,7 @@ function AddRecipe() {
     name: "",
     description: "",
     recipe: "",
-    image: null,
+    image: "",
   });
 
   const handleChange = (e) => {
@@ -36,9 +36,25 @@ function AddRecipe() {
       alert("Enter valid Name, description, recipe, and image");
     } else {
       try {
+        const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, 
+          {
+            rname: recipe.name,
+            description: recipe.description,
+            recipe: recipe.recipe,
+            imgurl: recipe.image
+          }
+        )
+        console.log(res);
+        const userId = localStorage.getItem("userid")
+        console.log(res.data);
         const response = await axios.post(
-          `https://recipe-backend-qgg0.onrender.com/${recipe.name}/to/${userId}`,
-          formData,
+          `https://recipe-backend-rosy.vercel.app/${res.data.data._id}/to/${userId}`,
+          {
+            rname: recipe.name,
+            description: recipe.description,
+            recipe: recipe.recipe,
+            imgurl: recipe.image
+          },
           {
             headers: {
               "Content-Type": "multipart/form-data"
@@ -92,11 +108,12 @@ function AddRecipe() {
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
-            type="file"
+            type="text"
             id="image"
             name="image"
-            accept="image/*"
-            onChange={handleImageChange}
+            value={recipe.image}
+            onChange={handleChange}
+            required
           />
         </div>
         <button type="submit" className="submit-button">

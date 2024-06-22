@@ -10,7 +10,7 @@ function RecipeDetail() {
   useEffect(() => {
     async function fetchDish() {
       try {
-        const response = await axios.get(`https://recipe-backend-qgg0.onrender.com/get-recipes/${name}`);
+        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipes/${name}`);
         if (response.data.success) {
           setDish(response.data.data);
         } else {
