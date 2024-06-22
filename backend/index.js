@@ -189,31 +189,58 @@ app.get("/get-recipes", async (req, res) => {
     }
 });
 
-app.get("/get-recipe/:id", async (req, res) => {
-    const  id  = "667686243b10400ef6fc98a2";
-    try {
-        const recipe = await recipeModel.findById(id);
-        console.log(recipe);
-        if (!recipe) {
-            return res.status(404).json({
+// app.get("/get-recipe/:id", async (req, res) => {
+    // const { id } = req.params;
+    // try {
+    //     const recipe = await recipeModel.findById(id);
+    //     if (!recipe) {
+    //         return res.status(404).json({
+    //             success: false,
+    //             message: "Recipe not found"
+    //         });
+    //     }
+
+    //     res.status(200).json({
+    //         success: true,
+    //         message: "Recipe fetched successfully",
+    //         data: recipe
+    //     });
+    // } catch (err) {
+    //     res.status(500).json({
+    //         success: false,
+    //         message: "Failed to fetch recipe",
+    //         error: err.message
+    //     });
+    // }
+//      });
+    app.get("/get-recipe/:name", async (req, res) => {
+        const { name } = req.params;
+    
+        try {
+            const recipe = await recipeModel.findOne({ rname: name });
+            if (!recipe) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Recipe not found"
+                });
+            }
+    
+            res.status(200).json({
+                success: true,
+                message: "Recipe fetched successfully",
+                data: recipe
+            });
+        } catch (err) {
+            console.error(err); // Log error details for debugging
+            res.status(500).json({
                 success: false,
-                message: "Recipe not found"
+                message: "Failed to fetch recipe",
+                error: err.message
             });
         }
+    });
+    
 
-        res.status(200).json({
-            success: true,
-            message: "Recipe fetched successfully",
-            data: recipe
-        });
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch recipe",
-            error: err.message
-        });
-    }
-});
 
 
 app.listen(port, () => {
