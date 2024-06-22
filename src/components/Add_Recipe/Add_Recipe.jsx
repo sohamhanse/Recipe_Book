@@ -45,10 +45,10 @@ function AddRecipe() {
           }
         )
         console.log(res);
-        const userId = localStorage.getItem("userid")
+        const userid = localStorage.getItem("userid") || userId;
         console.log(res.data);
         const response = await axios.post(
-          `https://recipe-backend-rosy.vercel.app/${recipe.name}/to/${userId}`,
+          `https://recipe-backend-rosy.vercel.app/${recipe.name}/to/${userid}`,
           {
             rname: recipe.name,
             description: recipe.description,

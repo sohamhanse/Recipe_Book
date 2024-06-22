@@ -23,7 +23,7 @@ function User_Recipe() {
               const recipeResponse = await axios.get(
                 `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
               );
-              return recipeResponse.data.data; // Assuming the full recipe data is in data.data
+              return recipeResponse.data.data; 
             })
           );
           setUserDishes(recipeDetails);
