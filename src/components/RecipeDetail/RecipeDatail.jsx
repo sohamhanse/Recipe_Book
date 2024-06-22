@@ -4,35 +4,19 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { index } = useParams();
+  const { id } = useParams();
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
     async function fetchDish() {
       try {
-        const userId = localStorage.getItem("userid");
-        
-        // Fetch user recipes
         const response = await axios.get(
-          `https://recipe-backend-rosy.vercel.app/get-user-recipes/${userId}`
+          `https://recipe-backend-rosy.vercel.app/get-recipe/${id}`
         );
-
         if (response.data.success) {
-          const recipeId = response.data.data[index];
-          console.log("we got this responce" + recipeId);
-          // Fetch specific recipe by ID
-          const recipeResponse = await axios.get(
-            `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
-          );
-          console.log(recipeResponse)
-
-          if (recipeResponse.data.success) {
-            setDish(recipeResponse.data.data);
-          } else {
-            console.error(recipeResponse.data.message);
-          }
+          setDish(response.data.data);
         } else {
-          console.error(response.data.message);
+          console.log(response.data.message);
         }
       } catch (err) {
         console.error("Failed to fetch recipe", err);
@@ -40,7 +24,9 @@ function RecipeDetail() {
     }
 
     fetchDish();
-  }, [index]);
+  }, [id]);
+
+  console.log(dish);
 
   if (!dish) {
     return <div>Recipe not found</div>;
