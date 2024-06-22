@@ -42,6 +42,10 @@ function User_Recipe() {
     }
   }, [userId]);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
 
   return (
     <div id="formargin">

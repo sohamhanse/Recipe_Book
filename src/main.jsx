@@ -11,6 +11,7 @@ import User_Recipe from "./components/User_Recipe/User_Recipe";
 import Add_Recipe from "./components/Add_Recipe/Add_Recipe.jsx";
 import RecipeDetail from "./components/RecipeDetail/RecipeDatail.jsx";
 import { UserProvider } from "./components/User_Contect.jsx";
+import DefaultDetail from "./components/RecipeDetail/DefaultDetail.jsx"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { path: "/Your Recipes", element: <User_Recipe /> },
       { path: "/Add Recipe", element: <Add_Recipe /> },
       { path: "/recipe/:id", element: <RecipeDetail /> },
+      { path: "/recipe/:name", element: <DefaultDetail/> },
     ],
   },
 ]);
