@@ -46,6 +46,8 @@ function User_Recipe() {
     return <p>Loading...</p>;
   }
 
+  console.log(userDishes);
+
   return (
     <div id="formargin">
       <h3>Your Recipes :- </h3>
@@ -62,7 +64,6 @@ function User_Recipe() {
         {userDishes.length > 0 &&
           userDishes.map((dish) => (
             <article className="card" key={dish._id}>
-              console.log(dish._id);
               <img
                 className="card__background"
                 src={dish.imgurl}
