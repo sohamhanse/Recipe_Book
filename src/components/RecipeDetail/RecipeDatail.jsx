@@ -4,12 +4,13 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { id } = useParams();
   const [dish, setDish] = useState(null);
+  const id = localStorage.getItem("temprecipeid")
 
   useEffect(() => {
     async function fetchDish() {
       try {
+        console.log(id);
         const response = await axios.get(
           `https://recipe-backend-rosy.vercel.app/get-recipe/${id}`
         );
@@ -18,6 +19,7 @@ function RecipeDetail() {
         } else {
           console.log(response.data.message);
         }
+        localStorage.removeItem("temprecipeid")
       } catch (err) {
         console.error("Failed to fetch recipe", err);
       }

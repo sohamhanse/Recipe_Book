@@ -75,7 +75,9 @@ function User_Recipe() {
                 </div>
                 <span>
                   <Link to={`/recipe/${dish._id}`}>
-                    <button className="card__button">Read more</button>
+                    <button onClick={()=> {
+                      localStorage.setItem("temprecipeid", dish._id)
+                    }} className="card__button">Read more</button>
                   </Link>
                   <button
                     style={{ visibility: "hidden" }}
