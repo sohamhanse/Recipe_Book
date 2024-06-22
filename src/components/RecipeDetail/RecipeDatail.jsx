@@ -4,13 +4,13 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { id } = useParams(); // Get the recipe ID from the URL
+  const { name } = useParams(); // Get the recipe ID from the URL
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
     async function fetchDish() {
       try {
-        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipe/${id}`);
+        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipe/${name}`);
         if (response.data.success) {
           setDish(response.data.data);
         } else {
@@ -22,7 +22,7 @@ function RecipeDetail() {
     }
 
     fetchDish();
-  }, [id]);
+  }, [name]);
 
   if (!dish) {
     return <div>Recipe not found</div>;
