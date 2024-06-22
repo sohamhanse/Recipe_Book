@@ -108,11 +108,11 @@ function AddRecipe() {
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
-            type="image"
+            type="file"
             id="image"
             name="image"
-            value={recipe.image}
-            onChange={(e)=>handleImageChange(e)}
+            accept="image/*"
+            onChange={handleImageChange}
             required
           />
         </div>
