@@ -61,7 +61,7 @@ function User_Recipe() {
         </article>
 
         {userDishes.length > 0 &&
-          userDishes.map((dish) => (
+          userDishes.map((dish, index) => (
             <article className="card" key={dish._id}>
               <img
                 className="card__background"
@@ -74,7 +74,7 @@ function User_Recipe() {
                   <p className="card__description">{dish.description}</p>
                 </div>
                 <span>
-                  <Link to={`/recipe/${dish._id}`}>
+                  <Link to={`/recipe/${index}`}>
                     <button className="card__button">Read more</button>
                   </Link>
                   <button

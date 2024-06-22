@@ -4,29 +4,26 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { id } = useParams();
+  const { index } = useParams();
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
-    async function fetchDish() {
+    async function fetchRecipes() {
       try {
-        const response = await axios.get(
-          `https://recipe-backend-rosy.vercel.app/get-recipe/${id}`
-        );
+        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipes`);
         if (response.data.success) {
-          setDish(response.data.data);
+          const dishes = response.data.data;
+          setDish(dishes[index]);
         } else {
           console.log(response.data.message);
         }
       } catch (err) {
-        console.error("Failed to fetch recipe", err);
+        console.error("Failed to fetch recipes", err);
       }
     }
 
-    fetchDish();
-  }, [name]);
-
-  console.log(dish);
+    fetchRecipes();
+  }, [index]);
 
   if (!dish) {
     return <div>Recipe not found</div>;
@@ -48,19 +45,27 @@ function RecipeDetail() {
             <h1>{dish.rname}</h1>
           </div>
           <div className="image">
-            <img src={dish.imgurl} alt={dish.rname} />
+            <img
+              src={dish.imgurl}
+              alt={dish.rname}
+            />
           </div>
         </div>
         <div className="half">
           <div className="description">
             <h3>Description</h3>
-            <p>{dish.description}</p>
+            <p>
+              {dish.description}
+            </p>
             <h3>Recipe</h3>
-            <p>{dish.recipe}</p>
+            <p>
+              {dish.recipe}
+            </p>
           </div>
         </div>
       </div>
-      <div className="Recipe__footer"></div>
+      <div className="Recipe__footer">
+      </div>
     </div>
   );
 }
