@@ -1,17 +1,17 @@
-import { useState, createContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddRecipe.css";
-import { UserProvider } from "../User_Contect";
+import UserContext from '../User_Contect'; // Import UserContext instead of UserProvider
 
 function AddRecipe() { 
   const navigate = useNavigate();
-  const { userId } = createContext(UserProvider);
+  const { userId } = useContext(UserContext); // Use useContext to get userId
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
     recipe: "",
-    image: "",
+    image: null,
   });
 
   const handleChange = (e) => {
@@ -37,15 +37,14 @@ function AddRecipe() {
     } else {
       try {
         const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, 
+          formData,
           {
-            rname: recipe.name,
-            description: recipe.description,
-            recipe: recipe.recipe,
-            imgurl: recipe.image
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
           }
-        )
+        );
         console.log(res);
-        const userId = localStorage.getItem("userid")
         console.log(res.data);
         const response = await axios.post(
           `https://recipe-backend-rosy.vercel.app/${res.data.data._id}/to/${userId}`,
@@ -54,11 +53,6 @@ function AddRecipe() {
             description: recipe.description,
             recipe: recipe.recipe,
             imgurl: recipe.image
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
           }
         );
         console.log(response.data);
@@ -108,11 +102,11 @@ function AddRecipe() {
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
-            type="image"
+            type="file"
             id="image"
             name="image"
-            value={recipe.image}
-            onChange={handleChange}
+            accept="image/*"
+            onChange={handleImageChange}
             required
           />
         </div>
