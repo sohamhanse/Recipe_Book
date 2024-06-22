@@ -19,11 +19,12 @@ function RecipeDetail() {
 
         if (response.data.success) {
           const recipeId = response.data.data[index];
-          
+          console.log("we got this responce" + recipeId);
           // Fetch specific recipe by ID
           const recipeResponse = await axios.get(
             `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
           );
+          console.log(recipeResponse)
 
           if (recipeResponse.data.success) {
             setDish(recipeResponse.data.data);
