@@ -2,11 +2,11 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddRecipe.css";
-import { UserContext } from "../User_Context"; // Ensure this is correctly imported
+import { UserContext } from "../User_Context"; 
 
 function AddRecipe() {
   const navigate = useNavigate();
-  const { userId } = useContext(UserContext); // Use useContext to get userId
+  const { userId } = useContext(UserContext); 
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
