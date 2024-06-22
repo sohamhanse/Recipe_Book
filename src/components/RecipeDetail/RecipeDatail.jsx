@@ -4,13 +4,13 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { name } = useParams();
+  const { id } = useParams(); // Get the recipe ID from the URL
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
     async function fetchDish() {
       try {
-        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipes/${name}`);
+        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipe/${id}`);
         if (response.data.success) {
           setDish(response.data.data);
         } else {
@@ -22,7 +22,7 @@ function RecipeDetail() {
     }
 
     fetchDish();
-  }, [name]);
+  }, [id]);
 
   if (!dish) {
     return <div>Recipe not found</div>;
@@ -46,7 +46,7 @@ function RecipeDetail() {
           <div className="image">
             <img
               src={dish.imgurl}
-              alt=""
+              alt={dish.rname}
             />
           </div>
         </div>
@@ -54,7 +54,7 @@ function RecipeDetail() {
           <div className="description">
             <h3>Description</h3>
             <p>
-             {dish.description}
+              {dish.description}
             </p>
             <h3>Recipe</h3>
             <p>
