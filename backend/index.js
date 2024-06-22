@@ -189,11 +189,11 @@ app.get("/get-recipes", async (req, res) => {
     }
 });
 
-app.get("/get-recipe/:name", async (req, res) => {
-    const { name } = req.params;
+app.get("/get-recipe/:id", async (req, res) => {
+    const { id } = req.params;
 
     try {
-        const recipe = await recipeModel.findOne({ rname: name });
+        const recipe = await recipeModel.findById(id);
         if (!recipe) {
             return res.status(404).json({
                 success: false,

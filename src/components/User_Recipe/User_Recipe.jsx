@@ -74,7 +74,7 @@ function User_Recipe() {
                   <p className="card__description">{dish.description}</p>
                 </div>
                 <span>
-                  <Link to={`/recipe/${dish.rname}`}>
+                  <Link to={`/recipe/${dish._id}`}>
                     <button className="card__button">Read more</button>
                   </Link>
                   <button
