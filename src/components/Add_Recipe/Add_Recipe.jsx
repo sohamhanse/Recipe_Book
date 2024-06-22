@@ -1,17 +1,17 @@
-import { useState, createContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddRecipe.css";
-import { UserProvider } from "../User_Contect";
+import { UserContext } from "../User_Context"; // Ensure this is correctly imported
 
-function AddRecipe() { 
+function AddRecipe() {
   const navigate = useNavigate();
-  const { userId } = createContext(UserProvider);
+  const { userId } = useContext(UserContext); // Use useContext to get userId
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
     recipe: "",
-    image: "",
+    image: null,
   });
 
   const handleChange = (e) => {
@@ -26,47 +26,31 @@ function AddRecipe() {
   async function handleAddRecipe(e) {
     e.preventDefault();
 
+    if (!recipe.name || !recipe.image || !recipe.description || !recipe.recipe) {
+      alert("Enter valid Name, description, recipe, and image");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("rname", recipe.name);
     formData.append("description", recipe.description);
     formData.append("recipe", recipe.recipe);
     formData.append("imgurl", recipe.image);
 
-    if (!recipe.name || !recipe.image || !recipe.description || !recipe.recipe) {
-      alert("Enter valid Name, description, recipe, and image");
-    } else {
-      try {
-        const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, 
-          {
-            rname: recipe.name,
-            description: recipe.description,
-            recipe: recipe.recipe,
-            imgurl: recipe.image
-          }
-        )
-        console.log(res);
-        const userid = localStorage.getItem("userid") || userId;
-        console.log(res.data);
-        const response = await axios.post(
-          `https://recipe-backend-rosy.vercel.app/${recipe.name}/to/${userid}`,
-          {
-            rname: recipe.name,
-            description: recipe.description,
-            recipe: recipe.recipe,
-            imgurl: recipe.image
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          }
-        );
-        console.log(response.data);
-        navigate("/Your Recipes");
-      } catch (error) {
-        console.error(error.response.data);
-        alert("Adding Recipe failed. Please check your credentials.");
-      }
+    try {
+      const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, formData);
+      console.log(res.data);
+
+      const userid = localStorage.getItem("userid") || userId;
+      const response = await axios.post(
+        `https://recipe-backend-rosy.vercel.app/${res.data.data._id}/to/${userid}`
+      );
+      console.log(response.data);
+
+      navigate("/Your Recipes");
+    } catch (error) {
+      console.error(error);
+      alert("Adding Recipe failed. Please check your credentials.");
     }
   }
 
