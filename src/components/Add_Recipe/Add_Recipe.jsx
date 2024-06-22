@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddRecipe.css";
-import { UserContext } from "../User_Context"; 
+import UserContext  from "../User_Contect"; 
 
 function AddRecipe() {
   const navigate = useNavigate();
