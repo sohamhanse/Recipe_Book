@@ -1,17 +1,17 @@
-import { useState, useContext } from "react";
+import { useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddRecipe.css";
-import UserContext  from "../User_Contect"; 
+import { UserProvider } from "../User_Contect";
 
-function AddRecipe() {
+function AddRecipe() { 
   const navigate = useNavigate();
-  const { userId } = useContext(UserContext); 
+  const { userId } = createContext(UserProvider);
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
     recipe: "",
-    image: null,
+    image: "",
   });
 
   const handleChange = (e) => {
@@ -19,17 +19,8 @@ function AddRecipe() {
     setRecipe((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    setRecipe((prev) => ({ ...prev, image: e.target.files[0] }));
-  };
-
   async function handleAddRecipe(e) {
     e.preventDefault();
-
-    if (!recipe.name || !recipe.image || !recipe.description || !recipe.recipe) {
-      alert("Enter valid Name, description, recipe, and image");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("rname", recipe.name);
@@ -37,20 +28,41 @@ function AddRecipe() {
     formData.append("recipe", recipe.recipe);
     formData.append("imgurl", recipe.image);
 
-    try {
-      const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, formData);
-      console.log(res.data);
-
-      const userid = localStorage.getItem("userid") || userId;
-      const response = await axios.post(
-        `https://recipe-backend-rosy.vercel.app/${res.data.data._id}/to/${userid}`
-      );
-      console.log(response.data);
-
-      navigate("/Your Recipes");
-    } catch (error) {
-      console.error(error);
-      alert("Adding Recipe failed. Please check your credentials.");
+    if (!recipe.name || !recipe.image || !recipe.description || !recipe.recipe) {
+      alert("Enter valid Name, description, recipe, and image");
+    } else {
+      try {
+        const res = await axios.post(`https://recipe-backend-rosy.vercel.app/add-recipe`, 
+          {
+            rname: recipe.name,
+            description: recipe.description,
+            recipe: recipe.recipe,
+            imgurl: recipe.image
+          }
+        )
+        console.log(res);
+        const userid = localStorage.getItem("userid") || userId;
+        console.log(res.data);
+        const response = await axios.post(
+          `https://recipe-backend-rosy.vercel.app/${res.data.data._id}/to/${userid}`,
+          {
+            rname: recipe.name,
+            description: recipe.description,
+            recipe: recipe.recipe,
+            imgurl: recipe.image
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+        console.log(response.data);
+        navigate("/Your Recipes");
+      } catch (error) {
+        console.error(error.response.data);
+        alert("Adding Recipe failed. Please check your credentials.");
+      }
     }
   }
 
@@ -92,11 +104,11 @@ function AddRecipe() {
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
-            type="file"
+            type="text"
             id="image"
             name="image"
-            accept="image/*"
-            onChange={handleImageChange}
+            value={recipe.image}
+            onChange={handleChange}
             required
           />
         </div>
