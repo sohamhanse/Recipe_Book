@@ -13,6 +13,7 @@ function RecipeDetail() {
         const response = await axios.get(
           `https://recipe-backend-rosy.vercel.app/get-recipe/${id}`
         );
+        console.log(response);
         if (response.data.success) {
           setDish(response.data.data);
         } else {
