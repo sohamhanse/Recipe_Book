@@ -4,7 +4,7 @@ import axios from "axios";
 import "./RecipeDetail.css";
 
 function RecipeDetail() {
-  const { name } = useParams(); // Get the recipe ID from the URL
+  const { name } = useParams();
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
@@ -25,6 +25,8 @@ function RecipeDetail() {
 
     fetchDish();
   }, [name]);
+
+  console.log(dish);
 
   if (!dish) {
     return <div>Recipe not found</div>;

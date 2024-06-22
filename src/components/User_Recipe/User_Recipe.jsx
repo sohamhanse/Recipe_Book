@@ -46,7 +46,6 @@ function User_Recipe() {
     return <p>Loading...</p>;
   }
 
-  console.log(userDishes);
 
   return (
     <div id="formargin">
