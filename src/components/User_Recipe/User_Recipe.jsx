@@ -77,7 +77,7 @@ function User_Recipe() {
                     <Link to={`/recipe/${dish._id}`}>
                       <button className="card__button">Read more</button>
                     </Link>
-                    <button className="card__button">Delete</button>
+                    <button disabled className="card__button">Delete</button>
                   </span>
                 </div>
               </article>
