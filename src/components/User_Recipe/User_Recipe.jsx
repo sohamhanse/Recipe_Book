@@ -62,6 +62,7 @@ function User_Recipe() {
         {userDishes.length > 0 &&
           userDishes.map((dish) => (
             <article className="card" key={dish._id}>
+              console.log(dish._id);
               <img
                 className="card__background"
                 src={dish.imgurl}
@@ -76,7 +77,12 @@ function User_Recipe() {
                   <Link to={`/recipe/${dish.rname}`}>
                     <button className="card__button">Read more</button>
                   </Link>
-                  <button style={{ visibility: "hidden" }} className="card__button">Delete</button>
+                  <button
+                    style={{ visibility: "hidden" }}
+                    className="card__button"
+                  >
+                    Delete
+                  </button>
                 </span>
               </div>
             </article>

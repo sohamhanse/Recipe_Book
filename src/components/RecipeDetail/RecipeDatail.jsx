@@ -10,7 +10,9 @@ function RecipeDetail() {
   useEffect(() => {
     async function fetchDish() {
       try {
-        const response = await axios.get(`https://recipe-backend-rosy.vercel.app/get-recipe/${name}`);
+        const response = await axios.get(
+          `https://recipe-backend-rosy.vercel.app/get-recipe/${name}`
+        );
         if (response.data.success) {
           setDish(response.data.data);
         } else {
@@ -44,27 +46,19 @@ function RecipeDetail() {
             <h1>{dish.rname}</h1>
           </div>
           <div className="image">
-            <img
-              src={dish.imgurl}
-              alt={dish.rname}
-            />
+            <img src={dish.imgurl} alt={dish.rname} />
           </div>
         </div>
         <div className="half">
           <div className="description">
             <h3>Description</h3>
-            <p>
-              {dish.description}
-            </p>
+            <p>{dish.description}</p>
             <h3>Recipe</h3>
-            <p>
-              {dish.recipe}
-            </p>
+            <p>{dish.recipe}</p>
           </div>
         </div>
       </div>
-      <div className="Recipe__footer">
-      </div>
+      <div className="Recipe__footer"></div>
     </div>
   );
 }
