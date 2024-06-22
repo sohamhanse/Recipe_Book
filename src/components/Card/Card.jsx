@@ -16,7 +16,7 @@ function Card() {
                   <h2 className="card__title">{dish.name}</h2>
                   <p className="card__description">{dish.description}</p>
                 </div>
-                <Link to={`/recipe/${dish.name}`}>
+                <Link to={`/Default/${dish.name}`}>
                   <button className="card__button">Read more</button>
                 </Link>
               </div>
