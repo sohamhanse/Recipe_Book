@@ -9,7 +9,7 @@ const port = 3000;
 const mongoURI = "mongodb+srv://soham:soham@recipebook.tynml2u.mongodb.net/";
 
 app.use(cors());
-app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.json()); 
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -191,9 +191,10 @@ app.get("/get-recipes", async (req, res) => {
 
 app.get("/get-recipe/:id", async (req, res) => {
     const { id } = req.params;
-
+    console.log(id);
     try {
         const recipe = await recipeModel.findById(id);
+        console.log(recipe);
         if (!recipe) {
             return res.status(404).json({
                 success: false,
