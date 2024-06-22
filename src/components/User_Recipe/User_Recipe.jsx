@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Card/Card.css";
-import { UserContext } from "../User_Contect";
+import  UserContext  from "../User_Contect";
 
 function User_Recipe() {
   const [userDishes, setUserDishes] = useState([]);
