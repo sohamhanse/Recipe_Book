@@ -25,6 +25,8 @@ function RecipeDetail() {
     fetchRecipes();
   }, [index]);
 
+  console.log(dish);
+  
   if (!dish) {
     return <div>Recipe not found</div>;
   }
