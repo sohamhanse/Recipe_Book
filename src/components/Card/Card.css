@@ -154,6 +154,7 @@ p {
   font-family: var(--font-title);
   font-size: 1.125rem;
   color: var(--black);
+  z-index: 5;
 }
 
 .card__button:focus {
