@@ -9,7 +9,6 @@ function User_Recipe() {
   const [loading, setLoading] = useState(true);
   const { userId } = useContext(UserContext);
 
-  if (localStorage.getItem('userid') !== null) {
     useEffect(() => {
       async function fetchUserRecipes() {
         try {
@@ -43,7 +42,6 @@ function User_Recipe() {
         fetchUserRecipes();
       }
     }, [userId]);
-  }
 
 
   if (localStorage.getItem('userid') === null) {
