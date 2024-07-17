@@ -9,43 +9,50 @@ function User_Recipe() {
   const [loading, setLoading] = useState(true);
   const { userId } = useContext(UserContext);
 
-  useEffect(() => {
-    async function fetchUserRecipes() {
-      try {
-        const id = localStorage.getItem("userid") || userId;
-        const response = await axios.get(
-          `https://recipe-backend-rosy.vercel.app/get-user-recipes/${id}`
-        );
-        if (response.data.success) {
-          const recipeIds = response.data.data;
-          const recipeDetails = await Promise.all(
-            recipeIds.map(async (recipeId) => {
-              const recipeResponse = await axios.get(
-                `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
-              );
-              return recipeResponse.data.data;
-            })
+  if (localStorage.getItem('userId') !== null) {
+    useEffect(() => {
+      async function fetchUserRecipes() {
+        try {
+          const id = localStorage.getItem("userid") || userId;
+          const response = await axios.get(
+            `https://recipe-backend-rosy.vercel.app/get-user-recipes/${id}`
           );
-          setUserDishes(recipeDetails);
-        } else {
-          alert(response.data.message);
+          if (response.data.success) {
+            const recipeIds = response.data.data;
+            const recipeDetails = await Promise.all(
+              recipeIds.map(async (recipeId) => {
+                const recipeResponse = await axios.get(
+                  `https://recipe-backend-rosy.vercel.app/get-recipe/${recipeId}`
+                );
+                return recipeResponse.data.data;
+              })
+            );
+            setUserDishes(recipeDetails);
+          } else {
+            alert(response.data.message);
+          }
+        } catch (err) {
+          console.error("Failed to fetch user recipes", err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Failed to fetch user recipes", err);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (userId) {
-      fetchUserRecipes();
-    }
-  }, [userId]);
 
-  if (loading) {
-    return <p>Loading...</p>;
+      if (userId) {
+        fetchUserRecipes();
+      }
+    }, [userId]);
   }
 
+
+  if (localStorage.getItem('userId') === null) {
+    return <p>Login First</p>;
+  }
+
+  if (loading) {
+    return <p>loading</p>;
+  }
 
   return (
     <div id="formargin">
@@ -75,7 +82,7 @@ function User_Recipe() {
                 </div>
                 <span>
                   <Link to={`/recipe/${dish._id}`}>
-                    <button onClick={()=> {
+                    <button onClick={() => {
                       localStorage.setItem("temprecipeid", dish._id)
                     }} className="card__button">Read more</button>
                   </Link>
