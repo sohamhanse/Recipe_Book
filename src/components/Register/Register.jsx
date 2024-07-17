@@ -24,7 +24,7 @@ export default function Register() {
           }
         );
         console.log(response.data);
-        navigate("/");
+        navigate("/Login");
       } catch (error) {
         console.error(error);
         alert("Signup failed. Please check your credentials.");
