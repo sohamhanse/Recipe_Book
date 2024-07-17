@@ -36,7 +36,7 @@ const StickyNavBar = () => {
             </li>
             <li>
               {
-              localStorage.getItem('userid') !== null ? <Link to="/">Log Out</Link> : <Link to="/Login">Log In</Link>
+              localStorage.getItem('userid') !== null ? <Link to="/">Log Out</Link> : <Link onClick={localStorage.removeItem('userid')} to="/Login">Log In</Link>
               }
             </li>
           </ul>
