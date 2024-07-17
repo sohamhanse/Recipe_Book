@@ -261,3 +261,9 @@ p {
   top: 426px;
   left: 335px;
 }
+
+#caption{
+  font-size: xx-large;
+  font-weight: bold;
+  color: black;
+}

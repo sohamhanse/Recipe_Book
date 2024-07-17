@@ -47,11 +47,11 @@ function User_Recipe() {
 
 
   if (localStorage.getItem('userId') === null) {
-    return <p>Login First</p>;
+    return <p id="caption">Login First</p>;
   }
 
   if (loading) {
-    return <p>loading</p>;
+    return <p id="caption">loading</p>;
   }
 
   return (
