@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const location = useLocation();
-  const showNavbar = !["/", "/signup"].includes(location.pathname);
+  const showNavbar = !["/signup"].includes(location.pathname);
   return (
     <>
     {showNavbar && <Navbar/>}
