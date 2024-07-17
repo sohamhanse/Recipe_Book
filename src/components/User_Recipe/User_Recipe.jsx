@@ -48,9 +48,6 @@ function User_Recipe() {
     return <p id="caption">Login First</p>;
   }
 
-  if (loading) {
-    return <p id="caption">loading</p>;
-  }
 
   return (
     <div id="formargin">
