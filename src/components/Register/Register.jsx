@@ -16,7 +16,7 @@ export default function Register() {
     } else {
       try {
         const response = await axios.post(
-          "https://recipe-backend-rosy.vercel.app/register",
+          "https://recipe-backend-nu.vercel.app/register",
           {
             username,
             password,
