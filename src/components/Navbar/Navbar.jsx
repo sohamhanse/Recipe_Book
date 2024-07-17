@@ -29,13 +29,15 @@ const StickyNavBar = () => {
           </div>
           <ul className="nav-links">
             <li>
-            <Link to="/Home">Home</Link>
+              <Link to="/Home">Home</Link>
             </li>
             <li>
-            <Link to="/Your Recipes">Your Recipes</Link>
+              <Link to="/Your Recipes">Your Recipes</Link>
             </li>
             <li>
-            <Link to="/">Log Out</Link>
+              {
+              localStorage.getItem('userId') !== null ? <Link to="/">Log Out</Link> : <Link to="/Login">Log In</Link>
+              }
             </li>
           </ul>
         </div>
